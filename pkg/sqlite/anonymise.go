@@ -88,10 +88,13 @@ func (db *Anonymiser) deleteBlobs() error {
 	return utils.Do([]func() error{
 		func() error { return db.truncateColumn(tagTable, tagImageBlobColumn) },
 		func() error { return db.truncateColumn(studioTable, studioImageBlobColumn) },
-		func() error { return db.truncateColumn(performerTable, performerImageBlobColumn) },
+		func() error { return db.truncateColumn(performerTable, performerFrontImageBlobColumn) },
+		func() error { return db.truncateColumn(performerTable, performerBackImageBlobColumn) },
+		func() error { return db.truncateColumn(performerTable, performerCenterImageBlobColumn) },
 		func() error { return db.truncateColumn(sceneTable, sceneCoverBlobColumn) },
 		func() error { return db.truncateColumn(groupTable, groupFrontImageBlobColumn) },
 		func() error { return db.truncateColumn(groupTable, groupBackImageBlobColumn) },
+		func() error { return db.truncateColumn(groupTable, groupCenterImageBlobColumn) },
 
 		func() error { return db.truncateTable(blobTable) },
 	})

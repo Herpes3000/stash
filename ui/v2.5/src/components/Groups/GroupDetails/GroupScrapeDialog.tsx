@@ -87,6 +87,9 @@ export const GroupScrapeDialog: React.FC<IGroupScrapeDialogProps> = ({
   const [backImage, setBackImage] = useState<ScrapeResult<string>>(
     new ScrapeResult<string>(group.back_image, scraped.back_image)
   );
+  const [centerImage, setCenterImage] = useState<ScrapeResult<string>>(
+    new ScrapeResult<string>(group.center_image, scraped.center_image)
+  );
 
   const [newStudio, setNewStudio] = useState<GQL.ScrapedStudio | undefined>(
     scraped.studio && !scraped.studio.stored_id ? scraped.studio : undefined
@@ -115,6 +118,7 @@ export const GroupScrapeDialog: React.FC<IGroupScrapeDialogProps> = ({
     urls,
     frontImage,
     backImage,
+    centerImage
   ];
   // don't show the dialog if nothing was scraped
   if (
@@ -142,6 +146,7 @@ export const GroupScrapeDialog: React.FC<IGroupScrapeDialogProps> = ({
       urls: urls.getNewValue(),
       front_image: frontImage.getNewValue(),
       back_image: backImage.getNewValue(),
+      center_image: centerImage.getNewValue()
     };
   }
 
@@ -203,6 +208,12 @@ export const GroupScrapeDialog: React.FC<IGroupScrapeDialogProps> = ({
           className="group-image"
           result={backImage}
           onChange={(value) => setBackImage(value)}
+        />
+        <ScrapedImageRow
+          title="Center Image"
+          className="group-image"
+          result={centerImage}
+          onChange={(value) => setCenterImage(value)}
         />
       </>
     );

@@ -20,8 +20,9 @@ const (
 	groupTable    = "groups"
 	groupIDColumn = "group_id"
 
-	groupFrontImageBlobColumn = "front_image_blob"
-	groupBackImageBlobColumn  = "back_image_blob"
+	groupFrontImageBlobColumn  = "front_image_blob"
+	groupBackImageBlobColumn   = "back_image_blob"
+	groupCenterImageBlobColumn = "center_image_blob"
 
 	groupsTagsTable = "groups_tags"
 
@@ -46,8 +47,9 @@ type groupRow struct {
 	UpdatedAt   Timestamp   `db:"updated_at"`
 
 	// not used in resolutions or updates
-	FrontImageBlob zero.String `db:"front_image_blob"`
-	BackImageBlob  zero.String `db:"back_image_blob"`
+	FrontImageBlob  zero.String `db:"front_image_blob"`
+	BackImageBlob   zero.String `db:"back_image_blob"`
+	CenterImageBlob zero.String `db:"center_image_blob"`
 }
 
 func (r *groupRow) fromGroup(o models.Group) {
@@ -561,11 +563,18 @@ func (qb *GroupStore) UpdateBackImage(ctx context.Context, groupID int, backImag
 	return qb.UpdateImage(ctx, groupID, groupBackImageBlobColumn, backImage)
 }
 
+func (qb *GroupStore) UpdateCenterImage(ctx context.Context, groupID int, backImage []byte) error {
+	return qb.UpdateImage(ctx, groupID, groupCenterImageBlobColumn, backImage)
+}
+
 func (qb *GroupStore) destroyImages(ctx context.Context, groupID int) error {
 	if err := qb.DestroyImage(ctx, groupID, groupFrontImageBlobColumn); err != nil {
 		return err
 	}
 	if err := qb.DestroyImage(ctx, groupID, groupBackImageBlobColumn); err != nil {
+		return err
+	}
+	if err := qb.DestroyImage(ctx, groupID, groupCenterImageBlobColumn); err != nil {
 		return err
 	}
 
@@ -586,6 +595,13 @@ func (qb *GroupStore) GetBackImage(ctx context.Context, groupID int) ([]byte, er
 
 func (qb *GroupStore) HasBackImage(ctx context.Context, groupID int) (bool, error) {
 	return qb.HasImage(ctx, groupID, groupBackImageBlobColumn)
+}
+func (qb *GroupStore) GetCenterImage(ctx context.Context, groupID int) ([]byte, error) {
+	return qb.GetImage(ctx, groupID, groupCenterImageBlobColumn)
+}
+
+func (qb *GroupStore) HasCenterImage(ctx context.Context, groupID int) (bool, error) {
+	return qb.HasImage(ctx, groupID, groupCenterImageBlobColumn)
 }
 
 func (qb *GroupStore) FindByPerformerID(ctx context.Context, performerID int) ([]*models.Group, error) {

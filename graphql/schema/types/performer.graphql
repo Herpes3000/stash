@@ -38,7 +38,10 @@ type Performer {
   tags: [Tag!]!
   ignore_auto_tag: Boolean!
 
-  image_path: String # Resolver
+  front_image_path: String # Resolver
+  back_image_path: String # Resolver
+  center_image_path: String # Resolver
+
   scene_count: Int! # Resolver
   image_count: Int! # Resolver
   gallery_count: Int! # Resolver
@@ -84,7 +87,9 @@ input PerformerCreateInput {
   favorite: Boolean
   tag_ids: [ID!]
   "This should be a URL or a base64 encoded data URL"
-  image: String
+  front_image: String  
+  back_image: String
+  center_image: String
   stash_ids: [StashIDInput!]
   # rating expressed as 1-100
   rating100: Int
@@ -120,7 +125,9 @@ input PerformerUpdateInput {
   favorite: Boolean
   tag_ids: [ID!]
   "This should be a URL or a base64 encoded data URL"
-  image: String
+  front_image: String  
+  back_image: String
+  center_image: String
   stash_ids: [StashIDInput!]
   # rating expressed as 1-100
   rating100: Int

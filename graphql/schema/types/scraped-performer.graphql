@@ -26,8 +26,14 @@ type ScrapedPerformer {
   tags: [ScrapedTag!]
 
   "This should be a base64 encoded data URL"
-  image: String @deprecated(reason: "use images instead")
-  images: [String!]
+  front_image: String @deprecated(reason: "use front_images instead")  
+  "This should be a base64 encoded data URL"
+  back_image: String @deprecated(reason: "use back_images instead")
+  "This should be a base64 encoded data URL"
+  center_image: String @deprecated(reason: "use center_images instead")
+  front_images: [String!]
+  back_images: [String!]
+  center_images: [String!]
   details: String
   death_date: String
   hair_color: String

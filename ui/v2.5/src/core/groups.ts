@@ -7,6 +7,7 @@ export const scrapedGroupToCreateInput = (toCreate: GQL.ScrapedGroup) => {
     urls: toCreate.urls,
     aliases: toCreate.aliases,
     front_image: toCreate.front_image,
+    center_image: toCreate.center_image,
     back_image: toCreate.back_image,
     synopsis: toCreate.synopsis,
     date: toCreate.date,

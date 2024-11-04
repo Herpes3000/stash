@@ -26,7 +26,9 @@ const (
 	performerURLsTable = "performer_urls"
 	performerURLColumn = "url"
 
-	performerImageBlobColumn = "image_blob"
+	performerFrontImageBlobColumn  = "front_image_blob"
+	performerBackImageBlobColumn   = "back_image_blob"
+	performerCenterImageBlobColumn = "center_image_blob"
 )
 
 type performerRow struct {
@@ -58,7 +60,9 @@ type performerRow struct {
 	IgnoreAutoTag bool        `db:"ignore_auto_tag"`
 
 	// not used in resolution or updates
-	ImageBlob zero.String `db:"image_blob"`
+	FrontImageBlob  zero.String `db:"front_image_blob"`
+	BackImageBlob   zero.String `db:"back_image_blob"`
+	CenterImageBlob zero.String `db:"center_image_blob"`
 }
 
 func (r *performerRow) fromPerformer(o models.Performer) {
@@ -368,9 +372,22 @@ func (qb *PerformerStore) Update(ctx context.Context, updatedObject *models.Perf
 	return nil
 }
 
+func (qb *PerformerStore) destroyImages(ctx context.Context, performerID int) error {
+	if err := qb.blobJoinQueryBuilder.DestroyImage(ctx, performerID, performerFrontImageBlobColumn); err != nil {
+		return err
+	}
+	if err := qb.blobJoinQueryBuilder.DestroyImage(ctx, performerID, performerBackImageBlobColumn); err != nil {
+		return err
+	}
+	if err := qb.blobJoinQueryBuilder.DestroyImage(ctx, performerID, performerCenterImageBlobColumn); err != nil {
+		return err
+	}
+	return nil
+}
+
 func (qb *PerformerStore) Destroy(ctx context.Context, id int) error {
 	// must handle image checksums manually
-	if err := qb.destroyImage(ctx, id); err != nil {
+	if err := qb.destroyImages(ctx, id); err != nil {
 		return err
 	}
 
@@ -778,22 +795,32 @@ func (qb *PerformerStore) GetTagIDs(ctx context.Context, id int) ([]int, error) 
 	return performerRepository.tags.getIDs(ctx, id)
 }
 
+// In performer_store.go
+// Main interface implementation - returns front image for compatibility
 func (qb *PerformerStore) GetImage(ctx context.Context, performerID int) ([]byte, error) {
-	return qb.blobJoinQueryBuilder.GetImage(ctx, performerID, performerImageBlobColumn)
+	return qb.blobJoinQueryBuilder.GetImage(ctx, performerID, performerFrontImageBlobColumn)
 }
 
 func (qb *PerformerStore) HasImage(ctx context.Context, performerID int) (bool, error) {
-	return qb.blobJoinQueryBuilder.HasImage(ctx, performerID, performerImageBlobColumn)
+	return qb.blobJoinQueryBuilder.HasImage(ctx, performerID, performerFrontImageBlobColumn)
+}
+
+// Additional methods for multi-image support
+func (qb *PerformerStore) GetFrontImage(ctx context.Context, performerID int) ([]byte, error) {
+	return qb.blobJoinQueryBuilder.GetImage(ctx, performerID, performerFrontImageBlobColumn)
+}
+
+func (qb *PerformerStore) GetBackImage(ctx context.Context, performerID int) ([]byte, error) {
+	return qb.blobJoinQueryBuilder.GetImage(ctx, performerID, performerBackImageBlobColumn)
+}
+
+func (qb *PerformerStore) GetCenterImage(ctx context.Context, performerID int) ([]byte, error) {
+	return qb.blobJoinQueryBuilder.GetImage(ctx, performerID, performerCenterImageBlobColumn)
 }
 
 func (qb *PerformerStore) UpdateImage(ctx context.Context, performerID int, image []byte) error {
-	return qb.blobJoinQueryBuilder.UpdateImage(ctx, performerID, performerImageBlobColumn, image)
+	return qb.blobJoinQueryBuilder.UpdateImage(ctx, performerID, performerFrontImageBlobColumn, image)
 }
-
-func (qb *PerformerStore) destroyImage(ctx context.Context, performerID int) error {
-	return qb.blobJoinQueryBuilder.DestroyImage(ctx, performerID, performerImageBlobColumn)
-}
-
 func (qb *PerformerStore) GetAliases(ctx context.Context, performerID int) ([]string, error) {
 	return performersAliasesTableMgr.get(ctx, performerID)
 }

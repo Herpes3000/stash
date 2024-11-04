@@ -36,6 +36,7 @@ interface IGroupEditPanel {
   onDelete: () => void;
   setFrontImage: (image?: string | null) => void;
   setBackImage: (image?: string | null) => void;
+  setCenterImage: (image?: string | null) => void;
   setEncodingImage: (loading: boolean) => void;
 }
 
@@ -46,6 +47,7 @@ export const GroupEditPanel: React.FC<IGroupEditPanel> = ({
   onDelete,
   setFrontImage,
   setBackImage,
+  setCenterImage,
   setEncodingImage,
 }) => {
   const intl = useIntl();
@@ -296,6 +298,10 @@ export const GroupEditPanel: React.FC<IGroupEditPanel> = ({
   }, [formik.values.back_image, setBackImage]);
 
   useEffect(() => {
+    setCenterImage(formik.values.back_image);
+  }, [formik.values.back_image, setCenterImage]);
+
+  useEffect(() => {
     setEncodingImage(encodingImage);
   }, [setEncodingImage, encodingImage]);
 
@@ -313,6 +319,14 @@ export const GroupEditPanel: React.FC<IGroupEditPanel> = ({
 
   function onBackImageChange(event: React.FormEvent<HTMLInputElement>) {
     ImageUtils.onImageChange(event, onBackImageLoad);
+  }
+
+  function onCenterImageLoad(imageData: string | null) {
+    formik.setFieldValue("center_image", imageData);
+  }
+
+  function onCenterImageChange(event: React.FormEvent<HTMLInputElement>) {
+    ImageUtils.onImageChange(event, onCenterImageLoad);
   }
 
   function showImageAlert(imageData: string) {
@@ -469,6 +483,9 @@ export const GroupEditPanel: React.FC<IGroupEditPanel> = ({
         onBackImageChange={onBackImageChange}
         onBackImageChangeURL={onBackImageLoad}
         onClearBackImage={() => onBackImageLoad(null)}
+        onCenterImageChange={onCenterImageChange}
+        onCenterImageChangeURL={onCenterImageLoad}
+        onClearCenterImage={() => onCenterImageLoad(null)}
         onDelete={onDelete}
       />
 

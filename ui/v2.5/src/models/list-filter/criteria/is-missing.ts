@@ -63,7 +63,9 @@ export const PerformerIsMissingCriterionOption = new IsMissingCriterionOption(
     "piercings",
     "aliases",
     "gender",
-    "image",
+    "front_image",
+    "back_image",
+    "center_image",
     "details",
     "stash_id",
   ]
@@ -90,5 +92,5 @@ export const StudioIsMissingCriterionOption = new IsMissingCriterionOption(
 export const GroupIsMissingCriterionOption = new IsMissingCriterionOption(
   "isMissing",
   "is_missing",
-  ["front_image", "back_image", "scenes"]
+  ["front_image", "back_image", "center_image", "scenes"]
 );

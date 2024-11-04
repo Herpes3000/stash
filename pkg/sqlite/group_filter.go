@@ -106,6 +106,8 @@ func (qb *groupFilterHandler) missingCriterionHandler(isMissing *string) criteri
 				f.addWhere("groups.front_image_blob IS NULL")
 			case "back_image":
 				f.addWhere("groups.back_image_blob IS NULL")
+			case "center_image":
+				f.addWhere("groups.center_image_blob IS NULL")
 			case "scenes":
 				f.addLeftJoin("groups_scenes", "", "groups_scenes.group_id = groups.id")
 				f.addWhere("groups_scenes.scene_id IS NULL")
