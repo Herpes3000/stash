@@ -4,7 +4,9 @@ fragment SlimPerformerData on Performer {
   disambiguation
   gender
   urls
-  image_path
+  front_image_path
+  back_image_path
+  center_image_path
   favorite
   ignore_auto_tag
   country
@@ -39,7 +41,7 @@ fragment SelectPerformerData on Performer {
   name
   disambiguation
   alias_list
-  image_path
+  front_image_path
   birthdate
   death_date
 }

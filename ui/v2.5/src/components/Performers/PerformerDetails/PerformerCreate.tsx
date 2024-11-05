@@ -12,7 +12,7 @@ const PerformerCreate: React.FC = () => {
   const history = useHistory();
   const intl = useIntl();
 
-  const [image, setImage] = useState<string | null>();
+  const [images, setImages] = useState<(string | null | undefined)[]>([]);
   const [encodingImage, setEncodingImage] = useState<boolean>(false);
 
   const location = useLocation();
@@ -40,7 +40,7 @@ const PerformerCreate: React.FC = () => {
     }
   }
 
-  function renderPerformerImage() {
+  function renderPerformerImages() {
     if (encodingImage) {
       return (
         <LoadingIndicator
@@ -48,21 +48,29 @@ const PerformerCreate: React.FC = () => {
         />
       );
     }
-    if (image) {
-      return (
-        <img
-          className="performer"
-          src={image}
-          alt={intl.formatMessage({ id: "performer" })}
-        />
-      );
-    }
+    return (
+      <div className="performer-images-grid">
+        {images.map((img, index) => 
+          img ? (
+            <img
+              key={index}
+              className="performer"
+              src={img}
+              alt={intl.formatMessage({ 
+                id: index === 0 ? "front_image" : 
+                   index === 1 ? "back_image" : "center_image" 
+              })}
+            />
+          ) : null
+        )}
+      </div>
+    );
   }
-
+  
   return (
     <div className="row new-view" id="performer-page">
       <div className="performer-image-container col-md-4 text-center">
-        {renderPerformerImage()}
+        {renderPerformerImages()}
       </div>
       <div className="col-md-8">
         <h2>
@@ -75,7 +83,7 @@ const PerformerCreate: React.FC = () => {
           performer={performer}
           isVisible
           onSubmit={onSave}
-          setImage={setImage}
+          setImages={setImages}
           setEncodingImage={setEncodingImage}
         />
       </div>

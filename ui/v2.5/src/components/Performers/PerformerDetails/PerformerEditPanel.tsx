@@ -57,7 +57,7 @@ interface IPerformerDetails {
   isVisible: boolean;
   onSubmit: (performer: GQL.PerformerCreateInput) => Promise<void>;
   onCancel?: () => void;
-  setImage: (image?: string | null) => void;
+  setImages: (images: (string | null | undefined)[]) => void;
   setEncodingImage: (loading: boolean) => void;
 }
 
@@ -66,7 +66,7 @@ export const PerformerEditPanel: React.FC<IPerformerDetails> = ({
   isVisible,
   onSubmit,
   onCancel,
-  setImage,
+  setImages,
   setEncodingImage,
 }) => {
   const Toast = useToast();
@@ -114,7 +114,9 @@ export const PerformerEditPanel: React.FC<IPerformerDetails> = ({
     tag_ids: yup.array(yup.string().required()).defined(),
     ignore_auto_tag: yup.boolean().defined(),
     stash_ids: yup.mixed<GQL.StashIdInput[]>().defined(),
-    image: yup.string().nullable().optional(),
+    front_image: yup.string().nullable().optional(),
+    back_image: yup.string().nullable().optional(),
+    center_image: yup.string().nullable().optional(),
   });
 
   const initialValues = {
@@ -258,13 +260,15 @@ export const PerformerEditPanel: React.FC<IPerformerDetails> = ({
     // #404: don't overwrite image if it has been modified by the user
     // overwrite if not new since it came from a dialog
     // overwrite if image is unset
-    if (
-      (!isNew || !formik.values.image) &&
-      state.images &&
-      state.images.length > 0
-    ) {
-      const imageStr = state.images[0];
-      formik.setFieldValue("image", imageStr);
+    // Handle multiple images from state
+    if ((!isNew || !formik.values.front_image) && state.images?.length > 0) {
+      formik.setFieldValue("front_image", state.images[0]);
+    }
+    if ((!isNew || !formik.values.back_image) && state.images?.length > 1) {
+      formik.setFieldValue("back_image", state.images[1]);
+    }
+    if ((!isNew || !formik.values.center_image) && state.images?.length > 2) {
+      formik.setFieldValue("center_image", state.images[2]);
     }
     if (state.details) {
       formik.setFieldValue("details", state.details);
@@ -300,23 +304,51 @@ export const PerformerEditPanel: React.FC<IPerformerDetails> = ({
     }
   }
 
-  const encodingImage = ImageUtils.usePasteImage(onImageLoad);
+// Keep paste image support for multiple images
+const encodingImage = ImageUtils.usePasteImage(onImageLoad);
 
-  useEffect(() => {
-    setImage(formik.values.image);
-  }, [formik.values.image, setImage]);
+// Track all image values
+useEffect(() => {
+  // Update images array with all image values
+  setImages([
+    formik.values.front_image || formik.values.image, // Legacy support
+    formik.values.back_image,
+    formik.values.center_image
+  ]);
+}, [
+  formik.values.front_image,
+  formik.values.back_image, 
+  formik.values.center_image,
+  formik.values.image, // Legacy support
+  setImages
+]);
 
-  useEffect(() => {
-    setEncodingImage(encodingImage);
-  }, [setEncodingImage, encodingImage]);
+// Keep encoding state
+useEffect(() => {
+  setEncodingImage(encodingImage);
+}, [setEncodingImage, encodingImage]);
 
-  function onImageLoad(imageData: string | null) {
-    formik.setFieldValue("image", imageData);
+// Update image load handler for multiple images
+function onImageLoad(imageData: string | null, index: number = 0) {
+  // Set appropriate field based on index
+  switch(index) {
+    case 0:
+      formik.setFieldValue("front_image", imageData);
+      formik.setFieldValue("image", imageData); // Legacy support
+      break;
+    case 1:
+      formik.setFieldValue("back_image", imageData);
+      break;
+    case 2:
+      formik.setFieldValue("center_image", imageData);
+      break;
   }
+}
 
-  function onImageChange(event: React.FormEvent<HTMLInputElement>) {
-    ImageUtils.onImageChange(event, onImageLoad);
-  }
+// Update image change handler
+function onImageChange(event: React.FormEvent<HTMLInputElement>, index: number = 0) {
+  ImageUtils.onImageChange(event, (imageData: string | null) => onImageLoad(imageData, index));
+}
 
   async function onSave(input: InputValues) {
     setIsLoading(true);

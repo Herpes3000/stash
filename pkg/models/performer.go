@@ -226,7 +226,11 @@ type PerformerCreateInput struct {
 	Favorite       *bool           `json:"favorite"`
 	TagIds         []string        `json:"tag_ids"`
 	// This should be a URL or a base64 encoded data URL
-	Image         *string        `json:"image"`
+	Image *string `json:"image"`
+
+	FrontImage    *string        `json:"front_image"`
+	BackImage     *string        `json:"back_image"`
+	CenterImage   *string        `json:"center_image"`
 	StashIds      []StashIDInput `json:"stash_ids"`
 	Rating100     *int           `json:"rating100"`
 	Details       *string        `json:"details"`
@@ -263,7 +267,11 @@ type PerformerUpdateInput struct {
 	Favorite       *bool           `json:"favorite"`
 	TagIds         []string        `json:"tag_ids"`
 	// This should be a URL or a base64 encoded data URL
-	Image         *string        `json:"image"`
+	Image *string `json:"image"`
+
+	FrontImage    *string        `json:"front_image"`
+	BackImage     *string        `json:"back_image"`
+	CenterImage   *string        `json:"center_image"`
 	StashIds      []StashIDInput `json:"stash_ids"`
 	Rating100     *int           `json:"rating100"`
 	Details       *string        `json:"details"`

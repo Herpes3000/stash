@@ -117,18 +117,52 @@ func (r *performerResolver) Birthdate(ctx context.Context, obj *models.Performer
 	return nil, nil
 }
 
-func (r *performerResolver) ImagePath(ctx context.Context, obj *models.Performer) (*string, error) {
+func (r *performerResolver) FrontImagePath(ctx context.Context, obj *models.Performer) (*string, error) {
 	var hasImage bool
 	if err := r.withReadTxn(ctx, func(ctx context.Context) error {
 		var err error
-		hasImage, err = r.repository.Performer.HasImage(ctx, obj.ID)
+		hasImage, err = r.repository.Performer.HasFrontImage(ctx, obj.ID)
 		return err
 	}); err != nil {
 		return nil, err
 	}
 
 	baseURL, _ := ctx.Value(BaseURLCtxKey).(string)
-	imagePath := urlbuilders.NewPerformerURLBuilder(baseURL, obj).GetPerformerImageURL(hasImage)
+	imagePath := urlbuilders.NewPerformerURLBuilder(baseURL, obj).GetPerformerFrontImageURL(hasImage)
+	return &imagePath, nil
+}
+
+func (r *performerResolver) BackImagePath(ctx context.Context, obj *models.Performer) (*string, error) {
+	var hasImage bool
+	if err := r.withReadTxn(ctx, func(ctx context.Context) error {
+		var err error
+		hasImage, err = r.repository.Performer.HasBackImage(ctx, obj.ID)
+		return err
+	}); err != nil {
+		return nil, err
+	}
+	if !hasImage {
+		return nil, nil
+	}
+	baseURL, _ := ctx.Value(BaseURLCtxKey).(string)
+	imagePath := urlbuilders.NewPerformerURLBuilder(baseURL, obj).GetPerformerBackImageURL()
+	return &imagePath, nil
+}
+
+func (r *performerResolver) CenterImagePath(ctx context.Context, obj *models.Performer) (*string, error) {
+	var hasImage bool
+	if err := r.withReadTxn(ctx, func(ctx context.Context) error {
+		var err error
+		hasImage, err = r.repository.Performer.HasCenterImage(ctx, obj.ID)
+		return err
+	}); err != nil {
+		return nil, err
+	}
+	if !hasImage {
+		return nil, nil
+	}
+	baseURL, _ := ctx.Value(BaseURLCtxKey).(string)
+	imagePath := urlbuilders.NewPerformerURLBuilder(baseURL, obj).GetPerformerCenterImageURL()
 	return &imagePath, nil
 }
 

@@ -170,6 +170,23 @@ func (r *groupResolver) BackImagePath(ctx context.Context, obj *models.Group) (*
 	return &imagePath, nil
 }
 
+func (r *groupResolver) CenterImagePath(ctx context.Context, obj *models.Group) (*string, error) {
+	var hasImage bool
+	if err := r.withReadTxn(ctx, func(ctx context.Context) error {
+		var err error
+		hasImage, err = r.repository.Group.HasCenterImage(ctx, obj.ID)
+		return err
+	}); err != nil {
+		return nil, err
+	}
+	if !hasImage {
+		return nil, nil
+	}
+	baseURL, _ := ctx.Value(BaseURLCtxKey).(string)
+	imagePath := urlbuilders.NewGroupURLBuilder(baseURL, obj).GetGroupCenterImageURL()
+	return &imagePath, nil
+}
+
 func (r *groupResolver) SceneCount(ctx context.Context, obj *models.Group, depth *int) (ret int, err error) {
 	if err := r.withReadTxn(ctx, func(ctx context.Context) error {
 		ret, err = scene.CountByGroupID(ctx, r.repository.Scene, obj.ID, depth)

@@ -289,6 +289,29 @@ func (_m *GroupReaderWriter) GetBackImage(ctx context.Context, groupID int) ([]b
 	return r0, r1
 }
 
+// GetCenterImage provides a mock function with given fields: ctx, groupID
+func (_m *GroupReaderWriter) GetCenterImage(ctx context.Context, groupID int) ([]byte, error) {
+	ret := _m.Called(ctx, groupID)
+
+	var r0 []byte
+	if rf, ok := ret.Get(0).(func(context.Context, int) []byte); ok {
+		r0 = rf(ctx, groupID)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]byte)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(context.Context, int) error); ok {
+		r1 = rf(ctx, groupID)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // GetContainingGroupDescriptions provides a mock function with given fields: ctx, id
 func (_m *GroupReaderWriter) GetContainingGroupDescriptions(ctx context.Context, id int) ([]models.GroupIDDescription, error) {
 	ret := _m.Called(ctx, id)
@@ -406,6 +429,27 @@ func (_m *GroupReaderWriter) GetURLs(ctx context.Context, relatedID int) ([]stri
 
 // HasBackImage provides a mock function with given fields: ctx, groupID
 func (_m *GroupReaderWriter) HasBackImage(ctx context.Context, groupID int) (bool, error) {
+	ret := _m.Called(ctx, groupID)
+
+	var r0 bool
+	if rf, ok := ret.Get(0).(func(context.Context, int) bool); ok {
+		r0 = rf(ctx, groupID)
+	} else {
+		r0 = ret.Get(0).(bool)
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(context.Context, int) error); ok {
+		r1 = rf(ctx, groupID)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// HasCenterImage provides a mock function with given fields: ctx, groupID
+func (_m *GroupReaderWriter) HasCenterImage(ctx context.Context, groupID int) (bool, error) {
 	ret := _m.Called(ctx, groupID)
 
 	var r0 bool

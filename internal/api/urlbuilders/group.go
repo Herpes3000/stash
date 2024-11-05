@@ -31,3 +31,7 @@ func (b GroupURLBuilder) GetGroupFrontImageURL(hasImage bool) string {
 func (b GroupURLBuilder) GetGroupBackImageURL() string {
 	return b.BaseURL + "/group/" + b.GroupID + "/backimage?t=" + b.UpdatedAt
 }
+
+func (b GroupURLBuilder) GetGroupCenterImageURL() string {
+	return b.BaseURL + "/group/" + b.GroupID + "/centerimage?t=" + b.UpdatedAt
+}

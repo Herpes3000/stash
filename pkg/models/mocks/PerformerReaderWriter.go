@@ -314,6 +314,75 @@ func (_m *PerformerReaderWriter) GetAliases(ctx context.Context, relatedID int) 
 	return r0, r1
 }
 
+// GetBackImage provides a mock function with given fields: ctx, performerID
+func (_m *PerformerReaderWriter) GetBackImage(ctx context.Context, performerID int) ([]byte, error) {
+	ret := _m.Called(ctx, performerID)
+
+	var r0 []byte
+	if rf, ok := ret.Get(0).(func(context.Context, int) []byte); ok {
+		r0 = rf(ctx, performerID)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]byte)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(context.Context, int) error); ok {
+		r1 = rf(ctx, performerID)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// GetCenterImage provides a mock function with given fields: ctx, performerID
+func (_m *PerformerReaderWriter) GetCenterImage(ctx context.Context, performerID int) ([]byte, error) {
+	ret := _m.Called(ctx, performerID)
+
+	var r0 []byte
+	if rf, ok := ret.Get(0).(func(context.Context, int) []byte); ok {
+		r0 = rf(ctx, performerID)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]byte)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(context.Context, int) error); ok {
+		r1 = rf(ctx, performerID)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// GetFrontImage provides a mock function with given fields: ctx, performerID
+func (_m *PerformerReaderWriter) GetFrontImage(ctx context.Context, performerID int) ([]byte, error) {
+	ret := _m.Called(ctx, performerID)
+
+	var r0 []byte
+	if rf, ok := ret.Get(0).(func(context.Context, int) []byte); ok {
+		r0 = rf(ctx, performerID)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]byte)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(context.Context, int) error); ok {
+		r1 = rf(ctx, performerID)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // GetImage provides a mock function with given fields: ctx, performerID
 func (_m *PerformerReaderWriter) GetImage(ctx context.Context, performerID int) ([]byte, error) {
 	ret := _m.Called(ctx, performerID)
@@ -399,6 +468,69 @@ func (_m *PerformerReaderWriter) GetURLs(ctx context.Context, relatedID int) ([]
 	var r1 error
 	if rf, ok := ret.Get(1).(func(context.Context, int) error); ok {
 		r1 = rf(ctx, relatedID)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// HasBackImage provides a mock function with given fields: ctx, performerID
+func (_m *PerformerReaderWriter) HasBackImage(ctx context.Context, performerID int) (bool, error) {
+	ret := _m.Called(ctx, performerID)
+
+	var r0 bool
+	if rf, ok := ret.Get(0).(func(context.Context, int) bool); ok {
+		r0 = rf(ctx, performerID)
+	} else {
+		r0 = ret.Get(0).(bool)
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(context.Context, int) error); ok {
+		r1 = rf(ctx, performerID)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// HasCenterImage provides a mock function with given fields: ctx, performerID
+func (_m *PerformerReaderWriter) HasCenterImage(ctx context.Context, performerID int) (bool, error) {
+	ret := _m.Called(ctx, performerID)
+
+	var r0 bool
+	if rf, ok := ret.Get(0).(func(context.Context, int) bool); ok {
+		r0 = rf(ctx, performerID)
+	} else {
+		r0 = ret.Get(0).(bool)
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(context.Context, int) error); ok {
+		r1 = rf(ctx, performerID)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// HasFrontImage provides a mock function with given fields: ctx, performerID
+func (_m *PerformerReaderWriter) HasFrontImage(ctx context.Context, performerID int) (bool, error) {
+	ret := _m.Called(ctx, performerID)
+
+	var r0 bool
+	if rf, ok := ret.Get(0).(func(context.Context, int) bool); ok {
+		r0 = rf(ctx, performerID)
+	} else {
+		r0 = ret.Get(0).(bool)
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(context.Context, int) error); ok {
+		r1 = rf(ctx, performerID)
 	} else {
 		r1 = ret.Error(1)
 	}

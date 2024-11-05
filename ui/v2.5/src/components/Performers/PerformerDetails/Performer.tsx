@@ -216,12 +216,14 @@ const PerformerPage: React.FC<IProps> = ({ performer, tabKey }) => {
 
   const [collapsed, setCollapsed] = useState<boolean>(!showAllDetails);
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [image, setImage] = useState<string | null>();
+  const [image, setImage] = useState<string | null>();  // Legacy support
+  const [backImage, setBackImage] = useState<string | null>();
+  const [centerImage, setCenterImage] = useState<string | null>();
   const [encodingImage, setEncodingImage] = useState<boolean>(false);
   const loadStickyHeader = useLoadStickyHeader();
 
   const activeImage = useMemo(() => {
-    const performerImage = performer.image_path;
+    const performerImage = performer.image_path || performer.front_image_path;
     if (isEditing) {
       if (image === null && performerImage) {
         const performerImageURL = new URL(performerImage);
@@ -232,11 +234,26 @@ const PerformerPage: React.FC<IProps> = ({ performer, tabKey }) => {
       }
     }
     return performerImage;
-  }, [image, isEditing, performer.image_path]);
+  }, [image, isEditing, performer.image_path, performer.front_image_path]);
 
+  const activeBackImage = useMemo(() => {
+    return isEditing ? backImage : performer.back_image_path;
+  }, [backImage, isEditing, performer.back_image_path]);
+  
+  const activeCenterImage = useMemo(() => {
+    return isEditing ? centerImage : performer.center_image_path;
+  }, [centerImage, isEditing, performer.center_image_path]);
+  
   const lightboxImages = useMemo(
-    () => [{ paths: { thumbnail: activeImage, image: activeImage } }],
-    [activeImage]
+    () => {
+      const images = [
+        { paths: { thumbnail: activeImage, image: activeImage } },
+        ...(activeBackImage ? [{ paths: { thumbnail: activeBackImage, image: activeBackImage } }] : []),
+        ...(activeCenterImage ? [{ paths: { thumbnail: activeCenterImage, image: activeCenterImage } }] : [])
+      ];
+      return images;
+    },
+    [activeImage, activeBackImage, activeCenterImage]
   );
 
   const [updatePerformer] = usePerformerUpdate();

@@ -19,7 +19,9 @@ fragment PerformerData on Performer {
   alias_list
   favorite
   ignore_auto_tag
-  image_path
+  front_image_path
+  back_image_path
+  center_image_path
   scene_count
   image_count
   gallery_count

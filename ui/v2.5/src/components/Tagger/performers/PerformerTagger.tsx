@@ -556,7 +556,7 @@ const PerformerTaggerList: React.FC<IPerformerTaggerListProps> = ({
             />
           )}
           <Card className="performer-card p-0 m-0">
-            <img src={performer.image_path ?? ""} alt="" />
+            <img src={performer.front_image_path ?? ""} alt="" />
           </Card>
           <div className={`${CLASSNAME}-details`}>
             <Link

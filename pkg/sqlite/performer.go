@@ -817,6 +817,17 @@ func (qb *PerformerStore) GetBackImage(ctx context.Context, performerID int) ([]
 func (qb *PerformerStore) GetCenterImage(ctx context.Context, performerID int) ([]byte, error) {
 	return qb.blobJoinQueryBuilder.GetImage(ctx, performerID, performerCenterImageBlobColumn)
 }
+func (qb *PerformerStore) HasFrontImage(ctx context.Context, performerID int) (bool, error) {
+	return qb.blobJoinQueryBuilder.HasImage(ctx, performerID, performerFrontImageBlobColumn)
+}
+
+func (qb *PerformerStore) HasBackImage(ctx context.Context, performerID int) (bool, error) {
+	return qb.blobJoinQueryBuilder.HasImage(ctx, performerID, performerBackImageBlobColumn)
+}
+
+func (qb *PerformerStore) HasCenterImage(ctx context.Context, performerID int) (bool, error) {
+	return qb.blobJoinQueryBuilder.HasImage(ctx, performerID, performerCenterImageBlobColumn)
+}
 
 func (qb *PerformerStore) UpdateImage(ctx context.Context, performerID int, image []byte) error {
 	return qb.blobJoinQueryBuilder.UpdateImage(ctx, performerID, performerFrontImageBlobColumn, image)

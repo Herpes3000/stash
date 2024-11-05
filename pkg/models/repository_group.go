@@ -74,6 +74,8 @@ type GroupReader interface {
 	HasFrontImage(ctx context.Context, groupID int) (bool, error)
 	GetBackImage(ctx context.Context, groupID int) ([]byte, error)
 	HasBackImage(ctx context.Context, groupID int) (bool, error)
+	GetCenterImage(ctx context.Context, groupID int) ([]byte, error)
+	HasCenterImage(ctx context.Context, groupID int) (bool, error)
 }
 
 // GroupWriter provides all methods to modify groups.

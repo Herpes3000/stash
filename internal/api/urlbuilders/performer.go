@@ -20,10 +20,18 @@ func NewPerformerURLBuilder(baseURL string, performer *models.Performer) Perform
 	}
 }
 
-func (b PerformerURLBuilder) GetPerformerImageURL(hasImage bool) string {
-	url := b.BaseURL + "/performer/" + b.PerformerID + "/image?t=" + b.UpdatedAt
+func (b PerformerURLBuilder) GetPerformerFrontImageURL(hasImage bool) string {
+	url := b.BaseURL + "/performer/" + b.PerformerID + "/frontimage?t=" + b.UpdatedAt
 	if !hasImage {
 		url += "&default=true"
 	}
 	return url
+}
+
+func (b PerformerURLBuilder) GetPerformerBackImageURL() string {
+	return b.BaseURL + "/performer/" + b.PerformerID + "/backimage?t=" + b.UpdatedAt
+}
+
+func (b PerformerURLBuilder) GetPerformerCenterImageURL() string {
+	return b.BaseURL + "/performer/" + b.PerformerID + "/centerimage?t=" + b.UpdatedAt
 }

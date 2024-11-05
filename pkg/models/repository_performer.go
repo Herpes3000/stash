@@ -81,8 +81,19 @@ type PerformerReader interface {
 	URLLoader
 
 	All(ctx context.Context) ([]*Performer, error)
+
+	// Legacy methods - keep for compatibility
 	GetImage(ctx context.Context, performerID int) ([]byte, error)
 	HasImage(ctx context.Context, performerID int) (bool, error)
+
+	// New multi-image methods
+	GetFrontImage(ctx context.Context, performerID int) ([]byte, error)
+	GetBackImage(ctx context.Context, performerID int) ([]byte, error)
+	GetCenterImage(ctx context.Context, performerID int) ([]byte, error)
+
+	HasFrontImage(ctx context.Context, performerID int) (bool, error)
+	HasBackImage(ctx context.Context, performerID int) (bool, error)
+	HasCenterImage(ctx context.Context, performerID int) (bool, error)
 }
 
 // PerformerWriter provides all methods to modify performers.

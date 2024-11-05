@@ -105,10 +105,15 @@ export const scrapedPerformerToCreateInput = (
     alias_list: aliases,
     urls: toCreate.urls,
     tag_ids: filterData((toCreate.tags ?? []).map((t) => t.stored_id)),
-    image:
-      (toCreate.images ?? []).length > 0
-        ? (toCreate.images ?? [])[0]
-        : undefined,
+    front_image: (toCreate.images ?? []).length > 0 
+    ? (toCreate.images ?? [])[0] 
+    : undefined,
+    back_image: (toCreate.images ?? []).length > 1 
+    ? (toCreate.images ?? [])[1] 
+    : undefined,
+    center_image: (toCreate.images ?? []).length > 2 
+    ? (toCreate.images ?? [])[2] 
+    : undefined,
     details: toCreate.details,
     death_date: toCreate.death_date,
     hair_color: toCreate.hair_color,
