@@ -117,6 +117,11 @@ func (r *performerResolver) Birthdate(ctx context.Context, obj *models.Performer
 	return nil, nil
 }
 
+// Keep original ImagePath that returns front image
+func (r *performerResolver) ImagePath(ctx context.Context, obj *models.Performer) (*string, error) {
+	return r.FrontImagePath(ctx, obj) // Delegate to FrontImagePath
+}
+
 func (r *performerResolver) FrontImagePath(ctx context.Context, obj *models.Performer) (*string, error) {
 	var hasImage bool
 	if err := r.withReadTxn(ctx, func(ctx context.Context) error {

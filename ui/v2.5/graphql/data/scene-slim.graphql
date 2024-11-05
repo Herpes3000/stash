@@ -78,7 +78,7 @@ fragment SlimSceneData on Scene {
     disambiguation
     gender
     favorite
-    image_path
+    front_image_path
   }
 
   stash_ids {

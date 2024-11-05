@@ -38,6 +38,7 @@ type Performer {
   tags: [Tag!]!
   ignore_auto_tag: Boolean!
 
+  image_path: String # for tests
   front_image_path: String # Resolver
   back_image_path: String # Resolver
   center_image_path: String # Resolver

@@ -1,0 +1,15 @@
+yarn run v1.22.19
+$ C:\GitHub\SexyStash\ui\v2.5\node_modules\.bin\gql-gen --config codegen.ts
+[STARTED] Parse Configuration
+[SUCCESS] Parse Configuration
+[STARTED] Generate outputs
+[STARTED] Generate to src/core/generated-graphql.ts
+[STARTED] Load GraphQL schemas
+[SUCCESS] Load GraphQL schemas
+[STARTED] Load GraphQL documents
+[SUCCESS] Load GraphQL documents
+[STARTED] Generate
+[SUCCESS] Generate
+[SUCCESS] Generate to src/core/generated-graphql.ts
+[SUCCESS] Generate outputs
+Done in 2.40s.
